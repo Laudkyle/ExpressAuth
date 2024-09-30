@@ -35,10 +35,12 @@ router.post("/login", async (req, res) => {
     const accessToken = generateAcessToken(user);
     const refreshToken = generateRefreshToken(user);
 
-    res.status(200).json({ access: accessToken, refresh: refreshToken });
+    res.status(200).json({ accessToken, refreshToken });
   } catch (error) {
     res
       .status(500)
       .json({ msg: "Something went wrong during the authentication process" });
   }
 });
+
+export default router;
