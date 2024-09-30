@@ -3,7 +3,7 @@ import User from "../models/User";
 import { generateAcessToken, generateRefreshToken } from "../utils/token";
 import jwt from "jsonWebToken";
 const router = express.Router();
-const refreshToken = process.env.refreshToken 
+const refreshToken = process.env.refreshToken;
 router.use(express.json());
 
 router.post("/register", async (req, res) => {
@@ -50,11 +50,11 @@ router.post("/refresh", async (req, res) => {
   if (!refresh) {
     res.status(403).json({ err: "Refresh Token is required" });
   }
-  jwt.verify(refresh,refreshToken,(err,user)=>{
-    if  (err) return res.status(403).json({error:"Invalid refresh token"})
-    
-        const accessToken = generateAcessToken({userId:user._id})
-        res.status(200).json({accessToken})
-  })
+  jwt.verify(refresh, refreshToken, (err, user) => {
+    if (err) return res.status(403).json({ error: "Invalid refresh token" });
+
+    const accessToken = generateAcessToken({ userId: user._id });
+    res.status(200).json({ accessToken });
+  });
 });
 export default router;
