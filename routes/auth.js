@@ -27,7 +27,7 @@ router.post('/login',async (req,res)=>{
     try {
         let user = await User.findOne({username});
         if(!user){
-            return res.status(403).json({msg:'Invalid Credentails'})
+            return res.status(400).json({msg:'Invalid Credentails'})
         }
         const isMatch = await user.isValidPassword(password);
         if (!isMatch){
@@ -36,6 +36,7 @@ router.post('/login',async (req,res)=>{
         }
         const accessToken = generateAcessToken(user)
         const refreshToken = generateRefreshToken(user)
+
         res.status(200).json({access: accessToken,refresh:refreshToken})
     } catch (error) {
         res.status(500).json({msg: "Something went wrong during the authentication process"})
