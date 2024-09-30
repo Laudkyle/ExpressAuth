@@ -3,6 +3,7 @@ import User from "../models/User";
 import { generateAcessToken, generateRefreshToken } from "../utils/token";
 import jwt from "jsonWebToken";
 const router = express.Router();
+
 router.use(express.json());
 
 router.post("/register", async (req, res) => {
