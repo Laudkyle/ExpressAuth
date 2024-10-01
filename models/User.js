@@ -11,14 +11,14 @@ const UserSchema = mongoose.Schema({
 // Presave hook to hash password before saving
 UserSchema.pre("save", async function (next) {
   const salt = await bcrypt.genSalt(10);
-  this.password = bcrypt.hash(this.password, salt);
+  this.password = await bcrypt.hash(this.password, salt);
   next();
 });
 
 // Password Verification
 
 UserSchema.methods.isValidPassword = async function (password) {
-  return bcrypt.compare(this.password, password);
+  return await bcrypt.compare(password, this.password);
 };
 
 const User = mongoose.model("User", UserSchema);

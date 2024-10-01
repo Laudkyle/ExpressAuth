@@ -23,7 +23,7 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
-
+console.log(password)
   try {
     let user = await User.findOne({ username });
     if (!user) {
@@ -31,7 +31,7 @@ router.post("/login", async (req, res) => {
     }
     const isMatch = await user.isValidPassword(password);
     if (!isMatch) {
-      return res.status(403).json({ msg: "Invalid Credentails" });
+      return res.status(403).json({ msg: "Invalid Credentails Pass" });
     }
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
