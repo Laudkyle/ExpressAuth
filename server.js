@@ -1,17 +1,18 @@
 import express from 'express'
+import router from './routes/auth.js'
+import {getDB, connectToDB} from './db.js'
 const port  = process.env.PORT
 
 const app = express()
-
-
-let posts = [
-    {username:"kyle", title:'Title one'},
-    {username:"Jim", title:'Title Two'},
-]
-
-app.get('/posts',(req,res)=>{
-    res.json(posts)
-})
+let db;
+connectToDB((err)=>{
+    if (!err){
 app.listen(port,()=>{
     console.log(`Server started on port ${port}`)
 })
+db= getDB()
+    }
+})
+
+
+app.use(router)

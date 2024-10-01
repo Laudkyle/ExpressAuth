@@ -1,7 +1,7 @@
 import express from "express";
-import User from "../models/User";
-import { generateAcessToken, generateRefreshToken } from "../utils/token";
-import jwt from "jsonWebToken";
+import User from "../models/User.js";
+import { generateAccessToken, generateRefreshToken } from "../utils/token.js";
+import jwt from 'jsonwebtoken';
 const router = express.Router();
 const refreshToken = process.env.refreshToken;
 router.use(express.json());
@@ -33,7 +33,7 @@ router.post("/login", async (req, res) => {
     if (!isMatch) {
       return res.status(403).json({ msg: "Invalid Credentails" });
     }
-    const accessToken = generateAcessToken(user);
+    const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
 
     res.status(200).json({ accessToken, refreshToken });
@@ -57,4 +57,6 @@ router.post("/refresh", async (req, res) => {
     res.status(200).json({ accessToken });
   });
 });
+
+
 export default router;
