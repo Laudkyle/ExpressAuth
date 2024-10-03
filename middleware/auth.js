@@ -17,3 +17,5 @@ const authMiddleware = (req,res,next)=>{
         res.status(403).json({error:"Invalid access token"})
     }
 }
+
+export default authMiddleware;

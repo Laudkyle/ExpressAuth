@@ -2,7 +2,7 @@ import express from "express";
 import User from "../models/User.js";
 import { generateAccessToken, generateRefreshToken } from "../utils/token.js";
 import jwt from "jsonwebtoken";
-
+import authMiddleware from "../middleware/auth.js";
 
 const router = express.Router();
 const refreshTokenStored = process.env.JWT_REFRESH_SECRET;
