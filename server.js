@@ -14,4 +14,5 @@ connectToDB((err) => {
   }
 });
 
+
 app.use(router);

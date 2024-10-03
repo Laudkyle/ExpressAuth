@@ -1,9 +1,12 @@
 import express from "express";
 import User from "../models/User.js";
 import { generateAccessToken, generateRefreshToken } from "../utils/token.js";
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
+
+
 const router = express.Router();
-const refreshToken = process.env.refreshToken;
+const refreshTokenStored = process.env.JWT_REFRESH_SECRET;
+
 router.use(express.json());
 
 router.post("/register", async (req, res) => {
@@ -23,24 +26,23 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
-console.log(password)
   try {
     let user = await User.findOne({ username });
     if (!user) {
       return res.status(400).json({ msg: "Invalid Credentails" });
     }
     const isMatch = await user.isValidPassword(password);
-    if (!isMatch) {
-      return res.status(403).json({ msg: "Invalid Credentails Pass" });
-    }
-    const accessToken = generateAccessToken(user);
+    if (!isMatch) return res.status(403).json({ msg: "Invalid Credentails" });
+    
+    const accessToken = generateArccessToken(user);
     const refreshToken = generateRefreshToken(user);
+    console.log(password)
 
     res.status(200).json({ accessToken, refreshToken });
   } catch (error) {
     res
       .status(500)
-      .json({ msg: "Something went wrong during the authentication process" });
+      .json({ msg: "Server Error: Something went wrong during the authentication process" });
   }
 });
 
@@ -50,13 +52,12 @@ router.post("/refresh", async (req, res) => {
   if (!refresh) {
     res.status(403).json({ err: "Refresh Token is required" });
   }
-  jwt.verify(refresh, refreshToken, (err, user) => {
+  jwt.verify(refresh, refreshTokenStored, (err, user) => {
     if (err) return res.status(403).json({ error: "Invalid refresh token" });
 
-    const accessToken = generateAcessToken({ userId: user._id });
+    const accessToken = generateAccessToken({ userId: user._id });
     res.status(200).json({ accessToken });
   });
 });
-
 
 export default router;
