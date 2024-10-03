@@ -13,4 +13,3 @@ export const connectToDB = (cb) => {
       return cb(error);
     });
 };
-export const getDB = dbConnection;
