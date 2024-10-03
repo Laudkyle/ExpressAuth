@@ -36,7 +36,6 @@ router.post("/login", async (req, res) => {
 
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
-    console.log(password);
 
     res.status(200).json({ accessToken, refreshToken });
   } catch (error) {
