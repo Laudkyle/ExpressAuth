@@ -8,6 +8,15 @@ const UserSchema = mongoose.Schema({
   password: { type: String, required: true },
 });
 
+const StudentSchema = mongoose.Schema({
+  firstName: { type: String, required: true},
+  lastName: { type: String, required: true},
+  age: { type:Number, required: true},
+  school: { type: String, required: true },
+  books: { type: Array, required: true},
+  preferences:{type: String, required:true}
+});
+
 // Presave hook to hash password before saving
 UserSchema.pre("save", async function (next) {
   const salt = await bcrypt.genSalt(10);
@@ -22,5 +31,7 @@ UserSchema.methods.isValidPassword = async function (password) {
 };
 
 const User = mongoose.model("User", UserSchema);
+
+export const Student = mongoose.model('Student', StudentSchema);
 
 export default User;

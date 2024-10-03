@@ -1,5 +1,6 @@
 import express from "express";
 import router from "./routes/auth.js";
+import routerStudents from "./routes/students.js"
 import { getDB, connectToDB } from "./db.js";
 const port = process.env.PORT;
 
@@ -14,5 +15,5 @@ connectToDB((err) => {
   }
 });
 
-
 app.use(router);
+app.use(routerStudents)

@@ -33,16 +33,18 @@ router.post("/login", async (req, res) => {
     }
     const isMatch = await user.isValidPassword(password);
     if (!isMatch) return res.status(403).json({ msg: "Invalid Credentails" });
-    
-    const accessToken = generateArccessToken(user);
+
+    const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
-    console.log(password)
+    console.log(password);
 
     res.status(200).json({ accessToken, refreshToken });
   } catch (error) {
     res
       .status(500)
-      .json({ msg: "Server Error: Something went wrong during the authentication process" });
+      .json({
+        msg: "Something went wrong during the authentication process",
+      });
   }
 });
 
